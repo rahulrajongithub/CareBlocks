@@ -10,23 +10,25 @@ contract CareBlocks{
         repositoryAmount += _amount;
     }
 
-    function releaseAmount(string memory _requestHash, uint256 _amount) public{
+    function releaseAmount(string memory _requestID, string memory _requestHash, uint256 _amount) public{
         requestCount++;
-        request[requestCount] = Request(requestCount, _requestHash, _amount);
+        request[requestCount] = Request(requestCount, _requestID, _requestHash, _amount);
         require(repositoryAmount >= _amount);
             repositoryAmount -= _amount;
             
-        emit Released(requestCount, request[requestCount].requestHash, request[requestCount].amount);
+        emit Released(requestCount, request[requestCount].requestHash, request[requestCount].requestID, request[requestCount].amount);
     }
     
     struct Request{
         uint256 requestNumber;
+        string requestID;
         string requestHash;
         uint256 amount;
     }
     
     event Released(
         uint256 requestNumber,
+        string requestID,
         string requestHash,
         uint256 amount
         );
