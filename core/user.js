@@ -44,7 +44,7 @@ User.prototype = {
             bind.push(body[prop]);
         }
         // prepare the sql query
-        let sql = `INSERT INTO users(username, fullname, password) VALUES (?, ?, ?)`;
+        let sql = `INSERT INTO users(username, fullname, password, utype) VALUES (?, ?, ?, ?)`;
         // call the query give it the sql string and the values (bind array)
         pool.query(sql, bind, function(err, result) {
             if(err) throw err;
@@ -56,12 +56,19 @@ User.prototype = {
     login : function(username, password, callback)
     {
         // find the user data by his username.
+        let sql = `SELECT utype from users where username = "s"`;
+        pool.query(sql, username, function(err, result) {
+            if(err) throw err;
+            console.log(result[result.length-1])
+        })
+
         this.find(username, function(user) {
             // if there is a user by this username.
             if(user) {
                 // now we check his password.
                 if(bcrypt.compareSync(password, user.password)) {
                     // return his data.
+                    // alert(user.username);
                     callback(user);
                     return;
                 }  

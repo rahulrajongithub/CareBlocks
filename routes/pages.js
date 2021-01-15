@@ -38,7 +38,7 @@ router.post('/login', (req, res, next) => {
             req.session.user = result;
             req.session.opp = 1;
             // redirect the user to the home page.
-            res.redirect('/home');
+            res.redirect('/sample');
         }else {
             // if the login function returns null send this error message back to the user.
             res.send('Username/Password incorrect!');
@@ -54,7 +54,8 @@ router.post('/register', (req, res, next) => {
     let userInput = {
         username: req.body.username,
         fullname: req.body.fullname,
-        password: req.body.password
+        password: req.body.password,
+        utype: req.body.utype
     };
     // call create function. to create a new user. if there is no error this function will return it's id.
     user.create(userInput, function(lastId) {
